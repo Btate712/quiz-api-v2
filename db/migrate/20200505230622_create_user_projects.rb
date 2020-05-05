@@ -4,6 +4,8 @@ class CreateUserProjects < ActiveRecord::Migration[6.0]
       t.integer :user_id
       t.integer :project_id
 
+      t.integer :access_level
+      
       t.timestamps
     end
   end
