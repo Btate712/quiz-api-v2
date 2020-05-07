@@ -1,18 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   name: Bob
   password_digest: password
   email: autobob@bob.bob
   is_admin: true
 
 two:
+  id: 2
   name: Somebody Else
   password_digest: SomeOtherPassword
   email: email@bob.bob
   is_admin: false
 
 three:
+  id: 3
   name: A third Person
   password_digest: password
   email: third@bob.bob 

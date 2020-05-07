@@ -39,6 +39,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not have write access to a topic if access_level is < 20" do
-    assert_not users(:one).has_project_rights?(projects(:one), READ_LEVEL)
+    assert_not users(:three).has_project_rights?(projects(:two), WRITE_LEVEL)
   end
 end
