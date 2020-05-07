@@ -34,4 +34,5 @@ User.create(name: "temp", password: "temp", email: "temp@temp.temp", is_admin: f
 User.create(name: "temp2", password: "temp2", email: "temp2@temp.temp", is_admin: false)
 User.create(name: "admin", password: "admin", email: "admin@admin.admin", is_admin: true)
 
-UserProject.create(user: User.find_by(name: "temp2"), project: Project.find_by(name: "Dummy Data"), access_level: 30)
+UserProject.create(user: User.find_by(name: "temp2"), project: Project.find_by(name: "Dummy Data"), access_level: 10)
+UserProject.create(user: User.find_by(name: "temp"), project: Project.find_by(name: "Dummy Data"), access_level: 20)
