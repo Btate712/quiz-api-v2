@@ -30,11 +30,15 @@ class UserTest < ActiveSupport::TestCase
     assert users(:one).has_project_rights?(projects(:one), READ_LEVEL)  
   end
 
+  test "should not have read access to a topic if no user_topic connection exists" do
+    assert_not users(:three).has_project_rights?(projects(:one), READ_LEVEL)  
+  end
+
   test "should have write access to a topic if access_level is >= 20" do 
     assert users(:two).has_project_rights?(projects(:one), WRITE_LEVEL)
   end
 
   test "should not have write access to a topic if access_level is < 20" do
-    assert users(:one).has_project_rights?(projects(:one), READ_LEVEL)
+    assert_not users(:one).has_project_rights?(projects(:one), READ_LEVEL)
   end
 end
