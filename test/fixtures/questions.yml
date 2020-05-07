@@ -4,8 +4,13 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one: {
+  stem: "Some Question",
+  choice_1: "A",
+  choice_2: "B",
+  choice_3: "C",
+  choice_4: "D",
+  correct_choice: 2,
+  topic_id: 1
+}
+
