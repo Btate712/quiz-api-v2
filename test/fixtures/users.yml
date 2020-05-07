@@ -6,3 +6,9 @@ one:
   email: autobob@bob.bob
   is_admin: true
 
+two:
+  name: Somebody Else
+  password_digest: SomeOtherPassword
+  email: email@bob.bob
+  is_admin: false
+
