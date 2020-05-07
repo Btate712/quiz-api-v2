@@ -12,7 +12,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "does not save a project with the same name as an existing project" do
-    project = Project.new(name: Project.first.name);
+    project = Project.new(name: projects(:one).name);
     assert_not project.save, "Project saved with same name as existing project"
   end
 end
