@@ -9,7 +9,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_3: "C",
       choice_4: "D",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert question.save
   end
@@ -21,7 +21,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_3: "C",
       choice_4: "D",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
@@ -33,7 +33,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_3: "C",
       choice_4: "D",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
@@ -45,7 +45,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_3: "C",
       choice_4: "D",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
@@ -57,7 +57,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_2: "B",
       choice_4: "D",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
@@ -69,7 +69,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_2: "B",
       choice_3: "C",
       correct_choice: 2,
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
@@ -81,7 +81,7 @@ class QuestionTest < ActiveSupport::TestCase
       choice_2: "B",
       choice_3: "C",
       choice_4: "D",
-      topic_id: Topic.first.id
+      topic_id: topics(:one).id
     )
     assert_not question.save
   end
