@@ -3,11 +3,6 @@
 one:
   user_id: 1
   question_id: 1
-  comment_type: MyString
-  content: MyString
+  comment_type: Problem
+  content: Some Comment
 
-two:
-  user_id: 1
-  question_id: 1
-  comment_type: MyString
-  content: MyString
