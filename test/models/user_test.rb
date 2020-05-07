@@ -25,4 +25,16 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(name: "OtherBob", email: users(:one).email, password: "password")
     assert_not user.save
   end
+
+  test "should have read access to a topic if access_level is >= 10" do
+    assert users(:one).has_project_rights?(projects(:one), READ_LEVEL)  
+  end
+
+  test "should have write access to a topic if access_level is >= 20" do 
+    assert users(:two).has_project_rights?(projects(:one), WRITE_LEVEL)
+  end
+
+  test "should not have write access to a topic if access_level is < 20" do
+    assert users(:one).has_project_rights?(projects(:one), READ_LEVEL)
+  end
 end
