@@ -3,4 +3,10 @@
 one:
   user_id: 1
   project_id: 1
+  access_level: 10
+
+two:
+  user_id: 2
+  project_id: 1
+  access_level: 20
 
