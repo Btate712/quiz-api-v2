@@ -12,3 +12,10 @@ two:
   email: email@bob.bob
   is_admin: false
 
+three:
+  name: A third Person
+  password_digest: password
+  email: third@bob.bob 
+  is_admin: false
+
+
