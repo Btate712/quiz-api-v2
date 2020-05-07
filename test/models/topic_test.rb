@@ -19,12 +19,12 @@ class TopicTest < ActiveSupport::TestCase
   test "should not save a topic with the same name as another topic within the same project" do
     topic = Topic.create(name: "My Topic", project_id: projects(:one).id)
     otherTopic = Topic.new(name: topic.name, project_id: projects(:one).id)
-    assert_not otherTopic.save
+    assert_not otherTopic.save, "Saved topic with same name as another topic in same project"
   end
 
   test "should save a topic with the same name as another topic in a different project" do
     topic = Topic.create(name: "My Topic", project_id: projects(:one).id)
     otherTopic = Topic.new(name: topic.name, project_id: projects(:two).id)
-    assert otherTopic.save
+    assert otherTopic.save, "Did not save topic with same name as another topic in a different project"
   end
 end
