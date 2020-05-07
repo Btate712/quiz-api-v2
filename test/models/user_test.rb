@@ -15,4 +15,14 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(name: "bob", password: "temp")
     assert_not user.save
   end
+
+  test "should not save a user with a name of a user that already exists" do
+    user = User.new(name: "Bob", email: "someEmail@email.email", password: "password")
+    assert_not user.save
+  end
+  
+  test "should not save a user with the same email as a user that already exists" do
+    user = User.new(name: "OtherBob", email: "autobob@bob.bob", password: "password")
+    assert_not user.save
+  end
 end
