@@ -27,18 +27,24 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert !!JSON.parse(@response.body)["projects"].first.has_key?("is_public")
   end
 
-  test "get /projects[:id] request is successful" do 
+  test "get /projects/[:id] request is successful" do 
     get project_url(1), headers: @headers
     assert_response :success
   end
 
-  test "get /projcects[:id] request response includes the project name" do 
+  test "get /projcects/[:id] request response includes the project name" do 
     get project_url(1), headers: @headers 
     assert JSON.parse(@response.body)["project"].has_key?("name")
   end
 
-  test "get /projcects[:id] request response includes the project is_public flag" do 
+  test "get /projcects/[:id] request response includes the project is_public flag" do 
     get project_url(1), headers: @headers 
     assert JSON.parse(@response.body)["project"].has_key?("is_public")
+  end
+
+  test "post /projects/[:id] request creates a new project" do
+    project_count = Project.count
+    post projects_url(name: "New Project", is_public: false), headers: @headers 
+    assert Project.count == project_count + 1
   end
 end

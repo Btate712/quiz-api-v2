@@ -35,4 +35,29 @@ class ProjectsController < ApplicationController
     end
     render json: response
   end
+
+  def create 
+    project = Project.new(project_params)
+    if project.save
+      UserProject.create(user_id: current_user.id, project_id: project.id, access_level: WRITE_LEVEL)
+      response = {
+        message: "Project created with id #{project.id}.",
+        project: project.as_json(only: [:id, :name, :is_public]),
+        status: :success
+      }
+    else 
+      response = {
+        message: "Project failed to save.",
+        status: :failure
+      }
+    end
+    render json: response
+  end
+
+  def project_params
+    params.permit(
+      :name,
+      :is_public
+    )
+  end
 end

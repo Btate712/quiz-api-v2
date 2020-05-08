@@ -78,8 +78,8 @@ class UserControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "delete /users/[:id] deletes an existing user" do 
-    userCount = User.count
+    user_Count = User.count
     delete user_url(User.last.id), headers: @headers
-    assert User.count == userCount - 1
+    assert User.count == user_Count - 1
   end
 end
