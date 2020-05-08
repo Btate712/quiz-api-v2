@@ -47,4 +47,10 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     post projects_url(name: "New Project", is_public: false), headers: @headers 
     assert Project.count == project_count + 1
   end
+
+  test "post /projects/[:id] request creates a new user_project with write access" do 
+    name = "Another Project"
+    post projects_url(name: name, is_public: false), headers: @headers
+    assert UserProject.last.project.name == name && UserProject.last.access_level == WRITE_LEVEL
+  end
 end
