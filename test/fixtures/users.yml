@@ -21,4 +21,11 @@ three:
   email: third@bob.bob 
   is_admin: false
 
+four:
+  id: 4
+  name: admin
+  password_digest: password
+  email: fourth@bob.bob 
+  is_admin: true
+
 
