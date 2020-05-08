@@ -11,4 +11,19 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     get projects_url
     assert_response :success
   end
+
+  test "get /projects request response includes an array of projects" do 
+    get projects_url 
+    assert !!JSON.parse(@response.body)["projects"]
+  end
+
+  test "get /projects request response includes project names" do 
+    get projects_url 
+    assert !!JSON.parse(@response.body)["projects"].first.has_key?("name")
+  end
+
+  test "get /projects request response includes project is_public fields" do 
+    get projects_url 
+    assert !!JSON.parse(@response.body)["projects"].first.has_key?("is_public")
+  end
 end

@@ -29,7 +29,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert user.has_key?("name")
   end
 
-  test "get /users request response does not include password-digests" do
+  test "get /users request response does not include password_digests" do
     get users_url
     user = JSON.parse(@response.body)["users"].first
     assert_not user.has_key?("password_digest")
