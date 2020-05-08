@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def index
      render json: {
        message: "#{User.count} user#{User.count > 1 ? 's' : ''} found.",
-       users: User.all.as_json(only: [:name])
+       users: User.all.as_json(only: [:id, :name])
      }
   end
 
@@ -40,8 +40,8 @@ class UsersController < ApplicationController
       }
     else
       response = { 
-        message: "User found.",
-        user: User.find_by(id: params[:id]).as_json(except: [:password_digest]),
+        message: "User #{params[:id]} found.",
+        user: User.find_by(id: params[:id]).as_json(only: [:id, :name, :email, :is_admin]),
         status: :success
       }
     end
