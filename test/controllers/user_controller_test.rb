@@ -46,4 +46,19 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     post users_url(name: "NewUser01", password: "password", email: "someEmail@gmail.com")
     assert User.all.count == beforeUserCount + 1 
   end
+
+  test "post /users request creates a new user correctly supplied with the appropriate data" do
+    post users_url(name: "NewUser02", password: "password", email: "someEmail2@gmail.com")
+    assert User.last.name = "NewUser02" && User.last.email = "someEmail2@gmail.com"
+  end
+  
+  test "post /users does not respond with an error message if user is successfully saved" do
+    post users_url(name: "NewUser03", password: "password", email: "someEmail3@gmail.com")
+    assert_not !!JSON.parse(@response.body)['errors']
+  end
+  
+  test "post /users responds with an error message if user with same name already exists" do
+    post users_url(name: "Bob", password: "password", email: "someEmail2@gmail.com")
+    assert !!JSON.parse(@response.body)['errors']
+  end
 end
