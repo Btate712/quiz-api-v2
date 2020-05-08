@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
      render json: {
-       message: "Users...",
+       message: "#{User.all.count} users found.",
        users: User.all.as_json(only: [:name])
      }
   end

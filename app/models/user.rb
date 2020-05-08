@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates_presence_of :name, :email
   validates_uniqueness_of :name, :email
 
-  def has_project_rights?(project, required_access_level) 
+  def has_project_rights?(project, required_access_level = READ_LEVEL) 
     if self.is_admin
       has_rights = true
     elsif self.projects.include? project
@@ -16,7 +16,5 @@ class User < ApplicationRecord
     else
       has_rights = false
     end
-
-    has_rights 
   end
 end

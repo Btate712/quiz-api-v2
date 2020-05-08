@@ -1,5 +1,5 @@
 
-p = Project.create(name: "Dummy Data")
+p = Project.create(name: "Dummy Data", is_public: false)
 
 topics = [
   Topic.create(name: "Math", project_id: p.id), 
