@@ -45,4 +45,18 @@ class UserTest < ActiveSupport::TestCase
   test "should automatically have read access for public projects" do
     assert users(:two).has_project_rights?(projects(:three), READ_LEVEL)
   end
+
+  # kill method 
+  test "kill method should delete all user_projects and comments that reference the deleted user" do 
+    user = User.find(2) 
+    user_id = user.id 
+    user.kill 
+
+    cleaned_up = true 
+    if UserProject.all.find_by(user_id: user_id) || Comment.all.find_by(user_id: user_id)
+      cleaned_up = false 
+    end 
+
+    assert cleaned_up
+  end
 end

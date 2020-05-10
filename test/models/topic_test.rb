@@ -27,4 +27,18 @@ class TopicTest < ActiveSupport::TestCase
     otherTopic = Topic.new(name: topic.name, project_id: projects(:two).id)
     assert otherTopic.save, "Did not save topic with same name as another topic in a different project"
   end
+
+  # kill method 
+  test "kill method deletes all questions that reference the deleted topic" do 
+    topic = Topic.first 
+    topic_id = topic.id 
+    topic.kill 
+
+    cleaned_up = true 
+    if Question.all.find_by(topic_id: topic_id) 
+      cleaned_up = false 
+    end 
+
+    assert cleaned_up
+  end
 end
