@@ -48,11 +48,42 @@ class ProjectsController < ApplicationController
     else 
       response = {
         message: "Project failed to save.",
-        status: :failure
+        status: :failure,
+        error: project.errors
       }
     end
     render json: response
   end
+
+  def update
+    project = Project.find(params[:id])
+    if !project
+      response = {
+        message: "Project with id:#{params[:id]} could not be found.",
+        status: :failure
+      }
+    elsif !current_user.has_project_rights?(project, READ_LEVEL)
+      response = {
+        message: "You do not have access to modify this project",
+        status: :failure
+      }
+    else
+      if project.update(project_params)
+        response = {
+          message: "Project updated.",
+          project: project.as_json(only: [:id, :name, :is_public]),
+          status: :success
+        }
+      else
+        response = {
+          message: "Project failed to update.",
+          status: :failure,
+          error: project.errors
+        }
+      end
+    end 
+    render json: response 
+  end 
 
   def project_params
     params.permit(
