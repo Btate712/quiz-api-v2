@@ -24,7 +24,27 @@ class UserProjectsController < ApplicationController
   end 
 
   def create 
-
+    user_project = UserProject.new(user_project_params)
+    if user_project.save
+      response = {
+        message: "User_Project created with id #{user_project.id}.",
+        user_project: {
+          user_name: User.find(user_project.user_id).name,
+          user_id: user_project.user_id,
+          access_level: user_project.access_level,
+          project_name: Project.find(user_project.project_id).name,
+          project_id: user_project.project_id
+        },
+        status: :success
+      }
+    else 
+      response = {
+        message: "User_Project failed to save.",
+        status: :failure,
+        error: user_project.errors
+      }
+    end
+    render json: response
   end
 
   def update 
@@ -33,5 +53,13 @@ class UserProjectsController < ApplicationController
 
   def delete 
 
+  end
+
+  def user_project_params
+    params.permit(
+      :user_id,
+      :project_id,
+      :access_level
+    )
   end
 end
