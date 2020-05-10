@@ -30,4 +30,9 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # delete
+  test "delete /topics/[:id] deletes a topic" do 
+    topic_count_before_delete = Topic.count
+    delete topic_url(1), headers: @headers
+    assert Topic.count == topic_count_before_delete - 1
+  end
 end

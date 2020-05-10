@@ -112,7 +112,24 @@ class TopicsController < ApplicationController
   end
 
   def destroy
-
+    topic = Topic.find(params[:id])
+    if (!topic)
+      response = {
+        message: "Topic with id: #{params[:id]} not found.",
+        status: :failure
+      }
+    elsif (!current_user.has_project_rights?(topic.project, WRITE_LEVEL))
+      response = {
+        message: "You do not have access to delete this topic.",
+        status: :failure
+      }
+    else 
+      topic.kill
+      response = {
+        message: "Topic deleted.",
+        status: :success
+      }
+    end
   end
 
   def topic_params
