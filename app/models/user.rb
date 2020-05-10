@@ -17,4 +17,10 @@ class User < ApplicationRecord
       has_rights = false
     end
   end
+
+  def kill
+    self.comments.all.each{ |comment| comment.destroy }
+    self.user_projects.all.each{ |user_project| user_project.destroy }
+    self.destroy
+  end
 end

@@ -82,4 +82,10 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     delete user_url(User.last.id), headers: @headers
     assert User.count == user_Count - 1
   end
+
+  test "delete /users/[:id] deletes comments associated with the deleted user" do 
+    comment_count = Comment.count
+    delete user_url(User.find_by(id: 5).id), headers: @headers
+    assert Comment.count == comment_count - 1
+  end
 end

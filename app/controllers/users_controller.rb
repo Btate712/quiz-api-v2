@@ -60,7 +60,10 @@ class UsersController < ApplicationController
         status: :failure
       }
     else
-      User.find_by(id: params[:id]).destroy
+      user = User.find(params[:id])
+      # kill is an instance method that cleans up objects that depend on the user
+      # i.e. comments and user_projects
+      user.kill
       response = { 
         message: "User with id: '#{params[:id]}' deleted",
         status: :success
