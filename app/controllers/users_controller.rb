@@ -48,6 +48,36 @@ class UsersController < ApplicationController
     render json: response
   end
 
+  def update 
+    user = User.find(params[:id]) 
+    if !current_user.is_admin && current_user != user
+      response = {
+        message: "You do not have access to modify this user",
+        status: :failure
+      }
+    elsif !user 
+      response = {
+        message: "User with id: '#{params[:id]}' not found",
+        status: :failure
+      }
+    else
+      if user.update(user_params)
+        response = {
+          message: "User updated.",
+          user: user.as_json(except: [:password_digest]),
+          status: :success
+        }
+      else 
+        response = {
+          message: "User failed to update.",
+          error: user.errors,
+          status: :failure
+        }
+      end
+    end
+    render json: response
+  end
+
   def destroy
     if !current_user.is_admin
       response = {
