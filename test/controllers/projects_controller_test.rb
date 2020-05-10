@@ -1,12 +1,6 @@
 require 'test_helper'
 
 class ProjectsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @headers = {
-      "Content-type": "application/json"
-    }
-  end
-
   # index
   test "get /projects request is successful" do
     get projects_url, headers: @headers

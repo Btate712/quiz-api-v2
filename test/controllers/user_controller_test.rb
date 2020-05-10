@@ -1,12 +1,6 @@
 require 'test_helper'
 
 class UserControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @headers = {
-      "Content-type": "application/json"
-    }
-  end
-
   test "get /users request is successful" do
     get users_url, headers: @headers
     assert_response :success
