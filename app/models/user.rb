@@ -10,6 +10,8 @@ class User < ApplicationRecord
   def has_project_rights?(project, required_access_level = READ_LEVEL) 
     if self.is_admin
       has_rights = true
+    elsif project.is_public && required_access_level == READ_LEVEL
+      has_rights = true
     elsif self.projects.include? project
       user_access_level = self.user_projects.find { |user_project| user_project.project_id == project.id }.access_level
       has_rights = user_access_level >= required_access_level ? true : false

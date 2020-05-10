@@ -91,7 +91,7 @@ class UsersController < ApplicationController
       }
     else
       user = User.find(params[:id])
-      # kill is an instance method that cleans up objects that depend on the user
+      # kill is a custom instance method that cleans up objects that depend on the user
       # i.e. comments and user_projects
       user.kill
       response = { 

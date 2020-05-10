@@ -10,3 +10,8 @@ two:
   name: AnotherFixtureProject
   is_public: false
 
+three:
+  id: 3
+  name: PublicProject
+  is_public: true
+
