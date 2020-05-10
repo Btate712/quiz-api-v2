@@ -33,6 +33,12 @@ class UserProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # update
+  test "can change a user's access level using put /user_projects/[:id]" do
+    put user_project_url(1, access_level: WRITE_LEVEL)
+    assert UserProject.find(1).access_level == WRITE_LEVEL
+  end
 
+  # TODO: ensure user cannot change access level without appropriate project rights 
+  
   # delete
 end
