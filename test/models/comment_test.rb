@@ -37,4 +37,10 @@ class CommentTest < ActiveSupport::TestCase
     )
     assert_not comment.save, "saved comment without content"
   end
+
+  test "kill method deletes the comment" do 
+    comment_count_before_kill = Comment.count 
+    Comment.first.kill
+    assert Comment.count == comment_count_before_kill - 1
+  end
 end
