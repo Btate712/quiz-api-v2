@@ -5,6 +5,27 @@ class UsersController < ApplicationController
        users: User.all.as_json(only: [:id, :name])
      }
   end
+  
+  def show
+    if !current_user.is_admin
+      response = {
+        message: "Viewing User data requires admin access",
+        status: :failure
+      }
+    elsif !User.find_by(id: params[:id])
+      response = {
+        message: "User with id: '#{params[:id]}' not found",
+        status: :failure
+      }
+    else
+      response = { 
+        message: "User #{params[:id]} found.",
+        user: User.find_by(id: params[:id]).as_json(only: [:id, :name, :email, :is_admin]),
+        status: :success
+      }
+    end
+    render json: response
+  end
 
   def create
     new_user = User.new(user_params)
@@ -22,27 +43,6 @@ class UsersController < ApplicationController
         message: "New user failed to save.",
         status: :failure,
         errors: new_user.errors
-      }
-    end
-    render json: response
-  end
-
-  def show
-    if !current_user.is_admin
-      response = {
-        message: "Viewing User data requires admin access",
-        status: :failure
-      }
-    elsif !User.find_by(id: params[:id])
-      response = {
-        message: "User with id: '#{params[:id]}' not found",
-        status: :failure
-      }
-    else
-      response = { 
-        message: "User #{params[:id]} found.",
-        user: User.find_by(id: params[:id]).as_json(only: [:id, :name, :email, :is_admin]),
-        status: :success
       }
     end
     render json: response
