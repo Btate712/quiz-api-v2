@@ -77,6 +77,16 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert_not JSON.parse(@response.body)["user"].has_key?("password_digest")
   end
 
+  test "put /users/[:id] request is successful" do
+    put user_url(id: 1, name: "Modified"), headers: @headers
+    assert_response :success
+  end
+
+  test "put /users/[:id] request modifies an existing user" do 
+    put user_url(id: 1, name: "Modified Again"), headers: @headers 
+    assert User.find(1).name == "Modified Again"
+  end
+
   test "delete /users/[:id] deletes an existing user" do 
     user_Count = User.count
     delete user_url(User.last.id), headers: @headers
