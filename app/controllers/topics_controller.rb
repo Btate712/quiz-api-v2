@@ -48,7 +48,7 @@ class TopicsController < ApplicationController
   end
 
   def create
-
+    topic = Topic.new(topic_params)
   end
 
   def update
@@ -60,6 +60,9 @@ class TopicsController < ApplicationController
   end
 
   def topic_params
-
+    params.permit(
+      :name,
+      :project_id
+    )
   end
 end

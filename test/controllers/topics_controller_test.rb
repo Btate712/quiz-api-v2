@@ -23,6 +23,11 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # update
-
+  test "topic can be updated via an update request to /topics/[:id]" do
+    new_name = "Some other topic name"
+    put topic_url(1, name: new_name), headers: @headers 
+    assert Topic.find(1).name = new_name
+  end
+  
   # delete
 end
