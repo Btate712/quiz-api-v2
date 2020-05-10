@@ -49,10 +49,66 @@ class TopicsController < ApplicationController
 
   def create
     topic = Topic.new(topic_params)
+    if(!current_user.has_project_rights?(topic.project))
+      response = {
+        message: "You do not have sufficient access to add a topic to this project.",
+        status: :failure
+      }
+    elsif(!topic.save) 
+      response = {
+        message: "Failed to save topic.",
+        status: :failure,
+        error: topic.errors
+      }
+    else
+      user_project = topic.project.user_projects.find_by(user_id: current_user.id)
+      response = {
+        message: "New topic created.",
+        topic: {
+          id: topic.id,
+          name: topic.name,
+          project_name: topic.project.name,
+          project_id: topic.project.id,
+          access_level: user_project ? user_project.access_level : ADMIN_LEVEL
+        }
+      }
+    end 
+    render json: response
   end
 
   def update
-
+    topic = Topic.find(params[:id])
+    if (!topic)
+      response = {
+        message: "Topic with id: #{params[:id]} not found.",
+        status: :failure
+      }
+    elsif (!current_user.has_project_rights?(topic.project, WRITE_LEVEL))
+      response = {
+        message: "You do not have access to modify this topic.",
+        status: :failure
+      }
+    elsif (!topic.update(topic_params))
+      response = {
+        message: "Failed to update topic.",
+        status: :failure,
+        error: topic.errors
+      }
+    else 
+      user_project = topic.project.user_projects.find_by(user_id: current_user.id)
+      response = {
+        message: "Topic updated.",
+        topic: {
+          id: topic.id,
+          name: topic.name,
+          project_name: topic.project.name,
+          project_id: topic.project.id,
+          access_level: user_project ? user_project.access_level : ADMIN_LEVEL
+        }, 
+        status: :success
+      }
+    end
+    render json: response
   end
 
   def destroy
