@@ -85,6 +85,28 @@ class ProjectsController < ApplicationController
     render json: response 
   end 
 
+  def destroy 
+    project = Project.find(params[:id])
+    if !project
+      response = {
+        message: "Project with id:#{params[:id]} could not be found.",
+        status: :failure
+      }
+    elsif !current_user.has_project_rights?(project, READ_LEVEL)
+      response = {
+        message: "You do not have access to delete this project",
+        status: :failure
+      }
+    else
+      project.kill
+      response = { 
+        message: "User with id: '#{params[:id]}' deleted",
+        status: :success
+      }
+    end
+    render json: response
+  end
+
   def project_params
     params.permit(
       :name,

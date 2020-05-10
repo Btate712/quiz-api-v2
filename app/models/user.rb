@@ -21,8 +21,8 @@ class User < ApplicationRecord
   end
 
   def kill
-    self.comments.all.each{ |comment| comment.destroy }
-    self.user_projects.all.each{ |user_project| user_project.destroy }
+    self.comments.all.each{ |comment| comment.kill }
+    self.user_projects.all.each{ |user_project| user_project.kill }
     self.destroy
   end
 end

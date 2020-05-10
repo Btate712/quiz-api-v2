@@ -44,6 +44,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert JSON.parse(@response.body)["project"].has_key?("is_public")
   end
 
+  # TODO: write test to verify user can't see projects they don't have access to
+
   # create
   test "post /projects request creates a new project" do
     project_count = Project.count
@@ -68,4 +70,25 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     put project_url(id: 1, name: name), headers: @headers 
     assert Project.find(1).name == name
   end 
+
+  # TODO - Add test to verify user can't change project without access
+  
+  #delete
+  test "delete /projects/[:id] request is successful" do 
+    project_count_before_delete = Project.count
+    delete project_url(2), headers: @headers 
+    assert Project.count == project_count_before_delete - 1
+  end
+
+  test "delete /projects/[:id] request removes all records that reference the deleted project" do 
+    project_id_to_delete = 1
+    delete project_url(project_id_to_delete), headers: @headers 
+
+    cleaned_up = true
+    if Topic.find_by(project_id: project_id_to_delete) || UserProject.find_by(project_id: project_id_to_delete) 
+      cleaned_up = false
+    end
+    
+    assert cleaned_up
+  end
 end
