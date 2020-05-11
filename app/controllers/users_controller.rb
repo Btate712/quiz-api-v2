@@ -5,6 +5,27 @@ class UsersController < ApplicationController
        users: User.all.as_json(only: [:id, :name])
      }
   end
+  
+  def show
+    if !current_user.is_admin
+      response = {
+        message: "Viewing User data requires admin access",
+        status: :failure
+      }
+    elsif !User.find_by(id: params[:id])
+      response = {
+        message: "User with id: '#{params[:id]}' not found",
+        status: :failure
+      }
+    else
+      response = { 
+        message: "User #{params[:id]} found.",
+        user: User.find_by(id: params[:id]).as_json(only: [:id, :name, :email, :is_admin]),
+        status: :success
+      }
+    end
+    render json: response
+  end
 
   def create
     new_user = User.new(user_params)
@@ -27,23 +48,32 @@ class UsersController < ApplicationController
     render json: response
   end
 
-  def show
-    if !current_user.is_admin
+  def update 
+    user = User.find(params[:id]) 
+    if !current_user.is_admin && current_user != user
       response = {
-        message: "Viewing User data requires admin access",
+        message: "You do not have access to modify this user",
         status: :failure
       }
-    elsif !User.find_by(id: params[:id])
+    elsif !user 
       response = {
         message: "User with id: '#{params[:id]}' not found",
         status: :failure
       }
     else
-      response = { 
-        message: "User #{params[:id]} found.",
-        user: User.find_by(id: params[:id]).as_json(only: [:id, :name, :email, :is_admin]),
-        status: :success
-      }
+      if user.update(user_params)
+        response = {
+          message: "User updated.",
+          user: user.as_json(except: [:password_digest]),
+          status: :success
+        }
+      else 
+        response = {
+          message: "User failed to update.",
+          error: user.errors,
+          status: :failure
+        }
+      end
     end
     render json: response
   end
@@ -60,7 +90,10 @@ class UsersController < ApplicationController
         status: :failure
       }
     else
-      User.find_by(id: params[:id]).destroy
+      user = User.find(params[:id])
+      # kill is a custom instance method that cleans up objects that depend on the user
+      # i.e. comments and user_projects
+      user.kill
       response = { 
         message: "User with id: '#{params[:id]}' deleted",
         status: :success

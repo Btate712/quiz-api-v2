@@ -28,4 +28,10 @@ four:
   email: fourth@bob.bob 
   is_admin: true
 
+five: 
+  id: 5
+  name: to_destroy
+  password_digest: somthing
+  email: fifth@bob.bob
+  is_admin: false
 

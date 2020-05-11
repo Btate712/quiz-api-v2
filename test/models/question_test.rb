@@ -97,4 +97,17 @@ class QuestionTest < ActiveSupport::TestCase
     )
     assert_not question.save
   end
+
+  # kill method 
+  test "kill method deletes all comments that reference the deleted question" do 
+    question = Question.first 
+    question_id = question.id 
+    question.kill 
+
+    cleaned_up = true 
+    if Comment.all.find_by(question_id: question_id) 
+      cleaned_up = false 
+    end
+    assert cleaned_up 
+  end 
 end

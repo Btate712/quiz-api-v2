@@ -33,4 +33,10 @@ class UserProjectTest < ActiveSupport::TestCase
     assert user_project_2.save
   end
 
+  # kill method 
+  test "kill method should delete the user_project" do 
+    user_project_count_before_delete = UserProject.count 
+    UserProject.first.kill 
+    assert UserProject.count == user_project_count_before_delete - 1
+  end
 end

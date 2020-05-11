@@ -1,8 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   user_id: 1
   question_id: 1
   comment_type: Problem
   content: Some Comment
+
+two:
+  id: 2
+  id: 2
+  user_id: 5
+  question_id: 1
+  comment_type: Explanation
+  content: This comment should be deleted
 

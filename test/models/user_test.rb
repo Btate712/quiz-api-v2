@@ -26,19 +26,37 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.save
   end
 
-  test "should have read access to a topic if access_level is >= 10" do
+  test "should have read access to a project if access_level is >= 10" do
     assert users(:one).has_project_rights?(projects(:one), READ_LEVEL)  
   end
 
-  test "should not have read access to a topic if no user_topic connection exists" do
+  test "should not have read access to a project if no user_project connection exists" do
     assert_not users(:three).has_project_rights?(projects(:one), READ_LEVEL)  
   end
 
-  test "should have write access to a topic if access_level is >= 20" do 
+  test "should have write access to a project if access_level is >= 20" do 
     assert users(:two).has_project_rights?(projects(:one), WRITE_LEVEL)
   end
 
-  test "should not have write access to a topic if access_level is < 20" do
+  test "should not have write access to a project if access_level is < 20" do
     assert_not users(:three).has_project_rights?(projects(:two), WRITE_LEVEL)
+  end
+
+  test "should automatically have read access for public projects" do
+    assert users(:two).has_project_rights?(projects(:three), READ_LEVEL)
+  end
+
+  # kill method 
+  test "kill method should delete all user_projects and comments that reference the deleted user" do 
+    user = User.find(2) 
+    user_id = user.id 
+    user.kill 
+
+    cleaned_up = true 
+    if UserProject.all.find_by(user_id: user_id) || Comment.all.find_by(user_id: user_id)
+      cleaned_up = false 
+    end 
+
+    assert cleaned_up
   end
 end

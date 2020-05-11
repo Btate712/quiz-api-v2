@@ -1,12 +1,6 @@
 require 'test_helper'
 
 class UserControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @headers = {
-      "Content-type": "application/json"
-    }
-  end
-
   test "get /users request is successful" do
     get users_url, headers: @headers
     assert_response :success
@@ -77,9 +71,25 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     assert_not JSON.parse(@response.body)["user"].has_key?("password_digest")
   end
 
+  test "put /users/[:id] request is successful" do
+    put user_url(id: 1, name: "Modified"), headers: @headers
+    assert_response :success
+  end
+
+  test "put /users/[:id] request modifies an existing user" do 
+    put user_url(id: 1, name: "Modified Again"), headers: @headers 
+    assert User.find(1).name == "Modified Again"
+  end
+
   test "delete /users/[:id] deletes an existing user" do 
     user_Count = User.count
     delete user_url(User.last.id), headers: @headers
     assert User.count == user_Count - 1
+  end
+
+  test "delete /users/[:id] deletes comments associated with the deleted user" do 
+    comment_count = Comment.count
+    delete user_url(User.find_by(id: 5).id), headers: @headers
+    assert Comment.count == comment_count - 1
   end
 end

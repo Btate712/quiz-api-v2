@@ -15,4 +15,17 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.new(name: projects(:one).name);
     assert_not project.save, "Project saved with same name as existing project"
   end
+
+  # kill method
+  test "kill method removes all topics and user_projects that reference the deleted project" do 
+    project = Project.first 
+    project_id = project.id 
+    project.kill
+
+    cleaned_up = true 
+    if UserProject.all.find_by(project_id: project_id) || Topic.all.find_by(project_id: project_id)
+      cleaned_up = false 
+    end
+    assert cleaned_up
+  end 
 end
