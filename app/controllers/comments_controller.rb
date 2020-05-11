@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   def show
-    comment = Comment.find(params[:id])
+    comment = Comment.find_by(id: params[:id])
     if !comment 
       response = {
         message: "Comment with id: #{params[:id]} not found.",
