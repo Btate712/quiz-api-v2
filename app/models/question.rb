@@ -8,4 +8,10 @@ class Question < ApplicationRecord
     self.comments.all.each { |question| question.kill }
     self.delete
   end
+
+  def dont_ask?(user)
+    comments = self.comments 
+    user_comments = comments.find_all{ |comment| comment.user == user }
+    !!user_comments.find{ |comment| comment.comment_type == "stop-asking" }
+  end
 end
