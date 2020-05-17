@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create]
+  
   def index
      render json: {
        message: "#{User.count} user#{User.count > 1 ? 's' : ''} found.",
@@ -30,10 +32,11 @@ class UsersController < ApplicationController
   def create
     new_user = User.new(user_params)
 
-    # set is_admin to false if undefined or keep as true if set as true
+    # set is_admin to false if undefined/null or keep as true if set as true
     new_user.is_admin = !! new_user.is_admin
     if new_user.save
       response = { 
+        token: encode_token(user_id: new_user.id),
         message: "New user '#{new_user.name}' created successfully",
         user: new_user.as_json(except: [:password_digest]),
         status: :success
@@ -101,6 +104,8 @@ class UsersController < ApplicationController
     end
     render json: response
   end
+
+  private 
 
   def user_params
     params.permit(
