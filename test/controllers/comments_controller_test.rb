@@ -23,7 +23,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     test "comment can be updated via an update request to /comments/[:id]" do
       new_content = "Some other comment content"
       put comment_url(1, content: new_content), headers: @headers 
-      assert comment.find(1).content == new_content
+      assert Comment.find(1).content == new_content
     end
   
     # delete
