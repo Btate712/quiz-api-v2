@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
       response = {
         message: "Comment saved successfully.",
         status: :success,
-        comment: comment 
+        comment: comment
       }
     end
     render json: response

@@ -2,16 +2,21 @@ require 'test_helper'
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest  
     # show
-    test "get /comments/[:id] response includes a comment along with its questions" do 
+    test "get /comments/[:id] response includes the comment" do 
       get comment_url(1), headers: @headers
-      assert @response.body.include?("questions")
+      assert @response.body.include?("comment")
     end
   
     # create
     test "post /comments creates a new comment" do
-      comment_count_before_create = comment.count
-      post comments_url(name: "some new comment", project_id: 1), headers: @headers
-      assert comment.count == comment_count_before_create + 1
+      comment_count_before_create = Comment.count
+      post comments_url(
+        content: "some new comment", 
+        question_id: 1,
+        user_id: 1,
+        comment_type: "test",
+      ), headers: @headers
+      assert Comment.count == comment_count_before_create + 1
     end
   
     # update

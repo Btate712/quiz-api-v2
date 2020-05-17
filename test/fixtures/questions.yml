@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one: {
+  id: 1,
   stem: "Some Question",
   choice_1: "A",
   choice_2: "B",
