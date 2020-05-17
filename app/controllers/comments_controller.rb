@@ -72,8 +72,25 @@ class CommentsController < ApplicationController
     render json: response
   end
 
-  def delete
-
+  def destroy
+    comment = Comment.find_by(id: params[:id])
+    if !comment 
+      response = {
+        message: "Comment with id: #{params[:id]} not found.",
+        status: :failure
+      }
+    elsif !current_user.has_project_rights?(comment.question.topic.project, WRITE_LEVEL)
+      response = {
+        message: "User does not have access to project \"#{comment.question.topic.project.name}\".",
+        status: :failure
+      }
+    else 
+      comment.kill
+      response = {
+        message: "Comment with id: #{params[:id]} deleted.",
+        status: :success
+      }
+    end
   end
 
   def comment_params

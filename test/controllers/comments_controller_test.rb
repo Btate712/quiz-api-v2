@@ -28,8 +28,8 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   
     # delete
     test "delete /comments/[:id] deletes a comment" do 
-      comment_count_before_delete = comment.count
+      comment_count_before_delete = Comment.count
       delete comment_url(1), headers: @headers
-      assert comment.count == comment_count_before_delete - 1
+      assert Comment.count == comment_count_before_delete - 1
     end
 end
