@@ -7,10 +7,12 @@ class ApplicationController < ActionController::Base
   before_action :authorized
 
   def my_secret 
-    ENV["RAILS_SECRET"]
+    ENV["SECRET_KEY_BASE"]
   end 
 
   def encode_token(payload) 
+    puts "payload: #{payload}"
+    puts "my_secret: #{my_secret}"
     JWT.encode(payload, my_secret)
   end 
 

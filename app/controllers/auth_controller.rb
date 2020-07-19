@@ -2,7 +2,6 @@ class AuthController < ApplicationController
   skip_before_action :authorized, only: [:create]
 
   def create
-    puts "attempting to login"
     @user = User.find_by(name: user_login_params[:username])
     #User#authenticate comes from BCrypt
     if @user && @user.authenticate(user_login_params[:password])
@@ -18,10 +17,7 @@ class AuthController < ApplicationController
     end
   end
 
-  private
-
   def user_login_params
-    # params {username: 'Chandler Bing', password: 'hi' }
     params.permit(:username, :password)
   end
 end
