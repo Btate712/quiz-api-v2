@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     new_user = User.new(user_params)
 
     # set is_admin to false if undefined/null or keep as true if set as true
-    new_user.is_admin = !! new_user.is_admin
+    new_user.is_admin = !!new_user.is_admin
     if new_user.save
       response = { 
         token: encode_token(user_id: new_user.id),
